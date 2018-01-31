@@ -1,0 +1,7 @@
+index:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+stream:
+    path: /stream
+    controller: 'App\Controller\FileDownloadController::downloadAction'
