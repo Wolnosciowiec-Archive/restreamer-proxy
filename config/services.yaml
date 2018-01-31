@@ -25,3 +25,18 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\FileDownloadController:
+        class: App\Controller\FileDownloadController
+        arguments:
+            $handler: '@App\ResourceHandler\ChainedHandler'
+
+    App\Handlers\ResourceHandlerInterface:
+        alias: App\ResourceHandler\ChainedHandler
+
+    App\ResourceHandler\ChainedHandler:
+        class: App\ResourceHandler\ChainedHandler
+        calls:
+            - method: setHandlers
+              arguments:
+                  - ['@App\ResourceHandler\Handlers\CdaPLHandler']

@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Allows to download files by providing links to supported pages
+ * where those files are placed
+ */
 class FileDownloadController extends Controller
 {
     /**
@@ -27,10 +31,10 @@ class FileDownloadController extends Controller
      *
      * @return Response
      */
-    public function downloadAction(Request $request): Response
+    public function streamOrDownloadAction(Request $request): Response
     {
         try {
-            return $this->handler->processRequestedUrl($request, Http::createFromString($request->get('url')));
+            return $this->handler->processRequestedUrl($request, Http::createFromString($request->get('url') ?? ''));
             
         } catch (NoAvailableHandlerFoundError | ResourceNotFoundException $e) {
             throw new NotFoundHttpException();

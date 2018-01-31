@@ -24,9 +24,13 @@ class CdaPLHandler implements ResourceHandlerInterface
      */
     public function processRequestedUrl(Request $request, Http $url): Response
     {
-        $response = $this->client->get((string) $url);
-        $fileUrl = $this->scrape((string) $response->getBody());
+        $response = $this->client->get($this->convertToEmbeddedVersion((string) $url), [
+            'headers' => [
+                'User-Agent' => $request->headers->get('User-Agent') ?? 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0'
+            ]
+        ]);
 
+        $fileUrl = $this->scrape((string) $response->getBody());
         return new RedirectResponse($fileUrl, 307);
     }
 
@@ -35,8 +39,17 @@ class CdaPLHandler implements ResourceHandlerInterface
      */
     public function isHandlingUrl(Http $url): bool
     {
-        return preg_match('/cda.pl\/video\/([A-Za-z0-9]+)/i', $url)
-            || preg_match('/ebd.cda.pl\/([0-9x]+)\/([A-Za-z0-9]+)/i', $url);
+        return preg_match('/cda.pl\/video\/([A-Za-z0-9]+)/i', (string) $url)
+            || preg_match('/ebd.cda.pl\/([0-9x]+)\/([A-Za-z0-9]+)/i', (string) $url);
+    }
+
+    private function convertToEmbeddedVersion(string $url): string
+    {
+        if (preg_match('/cda.pl\/video\/([A-Za-z0-9]+)/i', $url, $matches)) {
+            return 'http://ebd.cda.pl/300x150/' . $matches[1];
+        }
+
+        return $url;
     }
 
     /**
@@ -50,7 +63,7 @@ class CdaPLHandler implements ResourceHandlerInterface
     private function scrape(string $body): string
     {
         $dom = new \DOMDocument();
-        $dom->loadHTML($body);
+        $dom->loadHTML($body, LIBXML_NOERROR);
 
         /**
          * @var \DOMElement[] $nodes
