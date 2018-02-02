@@ -1,0 +1,29 @@
+App\Entity\SourceLink:
+    type: entity
+    table: restreamer_source
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID
+
+    fields:
+        url:
+            type: string
+            length: 254
+
+        order:
+            type: integer
+            length: 4
+            column: order_num
+
+    manyToOne:
+        libraryElement:
+            orderBy: { 'order_num': 'ASC' }
+            targetEntity: SourceLink
+            inversedBy: urls
+            joinColumn:
+                library_element_id:
+                    referencedColumnName: id
+

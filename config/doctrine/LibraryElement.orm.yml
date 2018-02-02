@@ -1,0 +1,14 @@
+App\Entity\LibraryElement:
+    type: entity
+    table: restreamer_library_element
+
+    id:
+        id:
+            type: string
+            generator:
+                strategy: none
+
+    oneToMany:
+        urls:
+            targetEntity: SourceLink
+            mappedBy: libraryElement

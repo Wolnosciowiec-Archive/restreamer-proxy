@@ -3,7 +3,7 @@
 namespace App\ResourceHandler;
 
 use App\Exception\NoAvailableHandlerFoundError;
-use League\Uri\Http;
+use Psr\Http\Message\UriInterface;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 class ChainedHandler implements ResourceHandlerInterface
@@ -24,7 +24,7 @@ class ChainedHandler implements ResourceHandlerInterface
     /**
      * @inheritdoc
      */
-    public function isHandlingUrl(Http $url): bool
+    public function isHandlingUrl(UriInterface $url): bool
     {
         foreach ($this->handlers as $handler) {
             if ($handler->isHandlingUrl($url)) {
@@ -38,7 +38,7 @@ class ChainedHandler implements ResourceHandlerInterface
     /**
      * @inheritdoc
      */
-    public function processRequestedUrl(Request $request, Http $url): Response
+    public function processRequestedUrl(Request $request, UriInterface $url): Response
     {
         foreach ($this->handlers as $handler) {
             if ($handler->isHandlingUrl($url)) {

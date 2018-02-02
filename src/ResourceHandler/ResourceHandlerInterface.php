@@ -2,9 +2,8 @@
 
 namespace App\ResourceHandler;
 
-use App\Exception\NoAvailableHandlerFoundError;
-use App\Exception\ResourceNotFoundException;
-use League\Uri\Http;
+use App\Exception\{NoAvailableHandlerFoundError, ResourceNotFoundException};
+use Psr\Http\Message\UriInterface;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
@@ -14,19 +13,19 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 interface ResourceHandlerInterface
 {
     /**
-     * @param Http $url
+     * @param UriInterface $url
      * @return bool
      */
-    public function isHandlingUrl(Http $url): bool;
+    public function isHandlingUrl(UriInterface $url): bool;
 
     /**
      * @param Request $request
-     * @param Http $url
+     * @param UriInterface $url
      *
      * @return Response
      *
      * @throws ResourceNotFoundException
      * @throws NoAvailableHandlerFoundError
      */
-    public function processRequestedUrl(Request $request, Http $url): Response;
+    public function processRequestedUrl(Request $request, UriInterface $url): Response;
 }

@@ -5,3 +5,18 @@ index:
 stream:
     path: /stream
     controller: 'App\Controller\FileDownloadController::streamOrDownloadAction'
+
+library.stream:
+    path: /library/{libraryFileId}/stream
+    controller: 'App\Controller\BrowseLibraryController::streamFileByIdAction'
+
+library.delete:
+    path: /library/{libraryId}/{url}
+    methods: ['DELETE']
+    controller: 'App\Controller\BrowseLibraryController::deleteByIdAction'
+
+library.add:
+    path: /library/{libraryId}/{url}
+    methods: ['POST']
+    controller: 'App\Controller\BrowseLibraryController::addFileAction'
+

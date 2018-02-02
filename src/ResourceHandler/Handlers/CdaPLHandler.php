@@ -4,7 +4,7 @@ namespace App\ResourceHandler\Handlers;
 
 use App\Exception\ResourceNotFoundException;
 use App\ResourceHandler\ResourceHandlerInterface;
-use League\Uri\Http;
+use Psr\Http\Message\UriInterface;
 use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
 
 class CdaPLHandler implements ResourceHandlerInterface
@@ -22,7 +22,7 @@ class CdaPLHandler implements ResourceHandlerInterface
     /**
      * @inheritdoc
      */
-    public function processRequestedUrl(Request $request, Http $url): Response
+    public function processRequestedUrl(Request $request, UriInterface $url): Response
     {
         $response = $this->client->get($this->convertToEmbeddedVersion((string) $url), [
             'headers' => [
@@ -37,7 +37,7 @@ class CdaPLHandler implements ResourceHandlerInterface
     /**
      * @inheritdoc
      */
-    public function isHandlingUrl(Http $url): bool
+    public function isHandlingUrl(UriInterface $url): bool
     {
         return preg_match('/cda.pl\/video\/([A-Za-z0-9]+)/i', (string) $url)
             || preg_match('/ebd.cda.pl\/([0-9x]+)\/([A-Za-z0-9]+)/i', (string) $url);

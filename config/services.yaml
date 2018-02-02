@@ -31,6 +31,11 @@ services:
         arguments:
             $handler: '@App\ResourceHandler\ChainedHandler'
 
+    App\ActionHandler\ServeLibraryElementAction:
+        class: App\ActionHandler\ServeLibraryElementAction
+        arguments:
+            $handler: '@App\ResourceHandler\ChainedHandler'
+
     App\Handlers\ResourceHandlerInterface:
         alias: App\ResourceHandler\ChainedHandler
 
