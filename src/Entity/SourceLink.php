@@ -7,7 +7,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * Single link on a list
  */
-class SourceLink
+class SourceLink implements \JsonSerializable
 {
     /**
      * @var string $id
@@ -46,9 +46,9 @@ class SourceLink
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -66,7 +66,7 @@ class SourceLink
      */
     public function getOrder(): int
     {
-        return $this->order;
+        return $this->order ?? 0;
     }
 
     /**
@@ -75,5 +75,17 @@ class SourceLink
     public function getLibraryElement(): ?LibraryElement
     {
         return $this->libraryElement;
+    }
+
+    /**
+     * @see \JsonSerializable
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id'    => $this->getId() ?? null,
+            'url'   => (string) $this->getUrl(),
+            'order' => $this->getOrder()
+        ];
     }
 }

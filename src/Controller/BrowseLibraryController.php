@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\ActionHandler\DeleteAction;
+use App\ActionHandler\AddLinkAction;
+use App\ActionHandler\DeleteLinkAction;
 use App\ActionHandler\ServeLibraryElementAction;
 use App\Exception\NoAvailableHandlerFoundError;
 use App\Exception\ResourceNotFoundException;
@@ -20,16 +21,23 @@ class BrowseLibraryController extends Controller
     protected $serve;
 
     /**
-     * @var DeleteAction $delete
+     * @var DeleteLinkAction $delete
      */
     protected $delete;
 
+    /**
+     * @var AddLinkAction $add
+     */
+    protected $add;
+
     public function __construct(
         ServeLibraryElementAction $serve,
-        DeleteAction $delete
+        DeleteLinkAction $delete,
+        AddLinkAction $add
     ) {
-        $this->serve = $serve;
+        $this->serve  = $serve;
         $this->delete = $delete;
+        $this->add    = $add;
     }
 
     /**
@@ -58,11 +66,18 @@ class BrowseLibraryController extends Controller
      */
     public function deleteByIdAction(Request $request, string $libraryId, string $url)
     {
-        return new JsonResponse(['object' => $this->delete->deleteAction($libraryId, base64_decode($url))]);
+        return new JsonResponse($this->delete->deleteAction($libraryId, base64_decode($url)));
     }
 
+    /**
+     * @param Request $request
+     * @param string $libraryId
+     * @param string $url
+     *
+     * @return JsonResponse
+     */
     public function addFileAction(Request $request, string $libraryId, string $url)
     {
-
+        return new JsonResponse($this->add->createAction($libraryId, base64_decode($url)));
     }
 }

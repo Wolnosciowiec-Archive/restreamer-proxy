@@ -9,6 +9,7 @@ use App\Repository\LibraryElementRepository;
 use App\ResourceHandler\ResourceHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Serves files in order (if one source fails, then next)
@@ -36,6 +37,11 @@ class ServeLibraryElementAction
     }
 
     /**
+     * Serve files by:
+     * 1. Iterating the download urls of a library elements IN ORDER
+     * 2. Asking a proper handler for each file
+     * 3. If a handler fails, then next is called
+     *
      * @param Request $request
      * @param string $libraryFileId
      *
@@ -71,6 +77,11 @@ class ServeLibraryElementAction
 
         if ($lastException instanceof \Throwable && !$response instanceof Response) {
             throw $lastException;
+        }
+        
+        // no file was found, eg. all files were removed from the library
+        if (!$response instanceof Response) {
+            throw new NotFoundHttpException();
         }
 
         return $response;

@@ -30,8 +30,10 @@ class ElementManager
     /**
      * @param string $libraryId
      * @param string $url
+     *
+     * @return null|SourceLink
      */
-    public function addLink(string $libraryId, string $url)
+    public function addLink(string $libraryId, string $url): ?SourceLink
     {
         $libraryElement = $this->libraryRepository->findById($libraryId);
 
@@ -39,18 +41,23 @@ class ElementManager
             $libraryElement = $this->createLibraryElement($libraryId);
         }
 
-        $libraryElement->pushInUrl($url);
+        $newLink = $libraryElement->pushInUrl($url);
         $libraryElement->reorderAllElements();
 
+        $this->linkRepository->persist($newLink);
         $this->libraryRepository->persist($libraryElement);
-        $this->libraryRepository->flush($libraryElement);
+
+        $this->linkRepository->flush();
+        $this->libraryRepository->flush();
+
+        return $newLink;
     }
 
     /**
      * @param string $libraryId
      * @param string $url
      *
-     * @return bool|SourceLink
+     * @return null|SourceLink
      */
     public function deleteLink(string $libraryId, string $url): ?SourceLink
     {
@@ -69,10 +76,9 @@ class ElementManager
         
         // persist everything
         $this->linkRepository->remove($link);
-        $this->linkRepository->flush($link);
-
         $this->libraryRepository->persist($libraryElement);
-        $this->libraryRepository->flush($libraryElement);
+        $this->libraryRepository->flush();
+        $this->linkRepository->flush();
 
         return $link;
     }
@@ -84,5 +90,13 @@ class ElementManager
     private function createLibraryElement(string $libraryId)
     {
         return new LibraryElement($libraryId);
+    }
+
+    /**
+     * @return LibraryElementRepository
+     */
+    public function getLibraryRepository(): LibraryElementRepository
+    {
+        return $this->libraryRepository;
     }
 }

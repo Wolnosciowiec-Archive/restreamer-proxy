@@ -63,11 +63,25 @@ class LibraryElement
      */
     public function hasUrl(string $url): bool
     {
-        $filter = function (SourceLink $link) use ($url) {
-            return $link->getUrl() === $url;
-        };
+        return $this->findLinkByUrl($url) instanceof SourceLink;
+    }
 
-        return count(array_filter($this->getUrls()->toArray(), $filter)) === 1;
+    /**
+     * @param string $url
+     *
+     * @return SourceLink|null
+     */
+    public function findLinkByUrl(string $url): ?SourceLink
+    {
+        $filtered = array_filter(
+            $this->getUrls()->toArray(),
+            function (SourceLink $link) use ($url) {
+                return (string) $link->getUrl() === $url;
+            }
+        );
+
+        $filtered = array_values($filtered);
+        return $filtered[0] ?? null;
     }
 
     /**
@@ -75,22 +89,28 @@ class LibraryElement
      */
     public function getMaxOrderNumber()
     {
-        return max(array_map(
+        $numbers = array_map(
             function (SourceLink $link) {
                 return $link->getOrder();
             },
             $this->getUrls()->toArray()
-        ));
+        );
+
+        if (count($numbers) === 0) {
+            return 0;
+        }
+
+        return max($numbers);
     }
 
     /**
      * @param string $url
-     * @return $this
+     * @return SourceLink
      */
-    public function pushInUrl(string $url): LibraryElement
+    public function pushInUrl(string $url): SourceLink
     {
         if ($this->hasUrl($url)) {
-            return $this;
+            return $this->findLinkByUrl($url);
         }
 
         $maxNumber = $this->getMaxOrderNumber();
@@ -99,7 +119,7 @@ class LibraryElement
         $link->setOrder($maxNumber + 1);
         $this->getUrls()->add($link);
 
-        return $this;
+        return $link;
     }
 
     /**

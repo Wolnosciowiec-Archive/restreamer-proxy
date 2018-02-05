@@ -21,7 +21,7 @@ App\Entity\SourceLink:
     manyToOne:
         libraryElement:
             orderBy: { 'order_num': 'ASC' }
-            targetEntity: SourceLink
+            targetEntity: LibraryElement
             inversedBy: urls
             joinColumn:
                 library_element_id:

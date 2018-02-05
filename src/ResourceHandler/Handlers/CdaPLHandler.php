@@ -4,10 +4,11 @@ namespace App\ResourceHandler\Handlers;
 
 use App\Exception\ResourceNotFoundException;
 use App\ResourceHandler\ResourceHandlerInterface;
+use GuzzleHttp\Client;
 use Psr\Http\Message\UriInterface;
 use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
 
-class CdaPLHandler implements ResourceHandlerInterface
+class CdaPLHandler extends StreamedHandler implements ResourceHandlerInterface
 {
     /**
      * @var \GuzzleHttp\Client $client
@@ -17,6 +18,11 @@ class CdaPLHandler implements ResourceHandlerInterface
     public function __construct()
     {
         $this->client = new \GuzzleHttp\Client();
+    }
+
+    protected function getHttpClient(): Client
+    {
+        return $this->client;
     }
 
     /**
