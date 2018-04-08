@@ -1,4 +1,5 @@
 {
+    "name": "restreamer-proxy",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -17,7 +18,8 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "symfony/dotenv": "^4.0"
+        "symfony/dotenv": "^4.0",
+        "symfony/phpunit-bridge": "^4.0"
     },
     "config": {
         "preferred-install": {
@@ -27,7 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Tests\\App\\": "tests/"
         }
     },
     "autoload-dev": {
