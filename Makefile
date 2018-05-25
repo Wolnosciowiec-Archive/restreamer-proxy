@@ -34,9 +34,8 @@ build:
 	composer install --dev
 
 ## Prepare the application to be ready to run
-deploy:
+deploy: build
 	./bin/console doctrine:migrations:migrate -vv
-	make build
 
 ## Run a development web server
 run_dev_server:
