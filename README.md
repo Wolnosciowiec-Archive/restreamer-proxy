@@ -22,6 +22,7 @@ See [postman.json](/postman.json) for example endpoints usage.
 
 List of supported files hosting sites:
 - [cda.pl](src/ResourceHandler/Handlers/CdaPLHandler.php)
+- [anyfiles.pl](src/ResourceHandler/Handlers/AnyFilesPLHandler.php)
 - ... [submit a PR and maintain an implementation](src/ResourceHandler/Handlers/StreamedHandler.php) ...
 
 #### Technical specification
