@@ -2,6 +2,7 @@
 
 namespace App\Repository\Doctrine;
 
+use App\Collection\PaginatedLibraryElementResults;
 use App\Entity\LibraryElement;
 use App\Repository\LibraryElementRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,9 +18,32 @@ class DoctrineLibraryElementRepository extends ServiceEntityRepository implement
     /**
      * @inheritdoc
      */
-    public function findById(string $elementId)
+    public function findById(string $elementId): ?LibraryElement
     {
         return $this->find($elementId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findMultiple(int $maxPerPage = 50, int $page = 1): PaginatedLibraryElementResults
+    {
+        $query = $this->createQueryBuilder('library');
+
+        $countQuery = clone $query;
+        $countQuery->select('count(library.id)');
+        $maxPages = (int) round($countQuery->getQuery()->getSingleScalarResult() / $maxPerPage, 0, PHP_ROUND_HALF_UP);
+
+        $query
+            ->setMaxResults($maxPerPage)
+            ->setFirstResult($maxPerPage * ($page - 1));
+
+        return new PaginatedLibraryElementResults(
+            $query->getQuery()->getResult(),
+            $maxPerPage,
+            $page,
+            $maxPages
+        );
     }
 
     public function persist(LibraryElement $element)

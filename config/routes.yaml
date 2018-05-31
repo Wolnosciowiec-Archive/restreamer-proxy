@@ -20,3 +20,10 @@ library.add:
     methods: ['POST']
     controller: 'App\Controller\BrowseLibraryController::addFileAction'
 
+library.browse:
+    path: /library/browse/{perPage}/{page}
+    methods: ['GET']
+    controller: 'App\Controller\BrowseLibraryController::browseAction'
+    defaults:
+        perPage: 50
+        page: 1

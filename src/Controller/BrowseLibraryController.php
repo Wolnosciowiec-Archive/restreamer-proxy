@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\ActionHandler\AddLinkAction;
+use App\ActionHandler\BrowseAction;
 use App\ActionHandler\DeleteLinkAction;
 use App\ActionHandler\ServeLibraryElementAction;
 use App\Exception\NoAvailableHandlerFoundError;
@@ -18,26 +19,33 @@ class BrowseLibraryController extends Controller
     /**
      * @var ServeLibraryElementAction $serve
      */
-    protected $serve;
+    private $serve;
 
     /**
      * @var DeleteLinkAction $delete
      */
-    protected $delete;
+    private $delete;
 
     /**
      * @var AddLinkAction $add
      */
-    protected $add;
+    private $add;
+
+    /**
+     * @var BrowseAction $browse
+     */
+    private $browse;
 
     public function __construct(
         ServeLibraryElementAction $serve,
         DeleteLinkAction $delete,
-        AddLinkAction $add
+        AddLinkAction $add,
+        BrowseAction $browse
     ) {
         $this->serve  = $serve;
         $this->delete = $delete;
         $this->add    = $add;
+        $this->browse = $browse;
     }
 
     /**
@@ -64,7 +72,7 @@ class BrowseLibraryController extends Controller
      *
      * @return JsonResponse
      */
-    public function deleteByIdAction(Request $request, string $libraryId, string $url)
+    public function deleteByIdAction(Request $request, string $libraryId, string $url): Response
     {
         return new JsonResponse($this->delete->deleteAction($libraryId, base64_decode($url)));
     }
@@ -76,8 +84,19 @@ class BrowseLibraryController extends Controller
      *
      * @return JsonResponse
      */
-    public function addFileAction(Request $request, string $libraryId, string $url)
+    public function addFileAction(Request $request, string $libraryId, string $url): Response
     {
         return new JsonResponse($this->add->createAction($libraryId, base64_decode($url)));
+    }
+
+    /**
+     * @param int $perPage
+     * @param int $page
+     *
+     * @return Response
+     */
+    public function browseAction(int $perPage, int $page): Response
+    {
+        return new JsonResponse($this->browse->handle($perPage, $page));
     }
 }

@@ -10,7 +10,7 @@ use Psr\Http\Message\UriInterface;
  * Represents an element - eg. "CDE0FIQuOlpGlaJuujZKlHd8hmjIbG"
  * that contains a list of urls
  */
-class LibraryElement
+class LibraryElement implements \JsonSerializable
 {
     /**
      * @var string $id
@@ -158,5 +158,13 @@ class LibraryElement
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id'   => $this->getId(),
+            'urls' => $this->getOrderedUrls()->toArray()
+        ];
     }
 }

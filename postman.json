@@ -1,102 +1,149 @@
 {
-    "info": {
-        "name": "Restreamer-proxy",
-        "_postman_id": "18be3f43-a49b-da62-b5fc-23a368d6b2bd",
-        "description": "",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-    },
-    "item": [
-        {
-            "name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
-            "request": {
-                "method": "POST",
-                "header": [],
-                "body": {},
-                "url": {
-                    "raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "8000",
-                    "path": [
-                        "library",
-                        "auta",
-                        "aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ="
-                    ]
-                },
-                "description": ""
-            },
-            "response": []
-        },
-        {
-            "name": "/library/auta/stream (HEAD)",
-            "request": {
-                "method": "HEAD",
-                "header": [],
-                "body": {},
-                "url": {
-                    "raw": "http://localhost:8000/library/auta/stream",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "8000",
-                    "path": [
-                        "library",
-                        "auta",
-                        "stream"
-                    ]
-                },
-                "description": ""
-            },
-            "response": []
-        },
-        {
-            "name": "/library/auta/stream",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "body": {},
-                "url": {
-                    "raw": "http://localhost:8000/library/auta/stream",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "8000",
-                    "path": [
-                        "library",
-                        "auta",
-                        "stream"
-                    ]
-                },
-                "description": ""
-            },
-            "response": []
-        },
-        {
-            "name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
-            "request": {
-                "method": "DELETE",
-                "header": [],
-                "body": {},
-                "url": {
-                    "raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
-                    "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "8000",
-                    "path": [
-                        "library",
-                        "auta",
-                        "aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ="
-                    ]
-                },
-                "description": ""
-            },
-            "response": []
-        }
-    ]
+	"info": {
+		"name": "Restreamer-proxy",
+		"_postman_id": "18be3f43-a49b-da62-b5fc-23a368d6b2bd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"auta",
+						"aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ="
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/library/auta/stream (HEAD)",
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/auta/stream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"auta",
+						"stream"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/library/auta/stream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/auta/stream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"auta",
+						"stream"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/library/browse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/auta/stream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"auta",
+						"stream"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"auta",
+						"aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ="
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/library/browse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/library/browse/50/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"library",
+						"browse",
+						"50",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
 }
