@@ -6,6 +6,7 @@ use App\Entity\LibraryElement;
 use App\Repository\LibraryElementRepository;
 use App\Repository\SourceLinkRepository;
 use App\Entity\SourceLink;
+use Psr\Http\Message\UriInterface;
 
 class ElementManager
 {
@@ -29,11 +30,11 @@ class ElementManager
 
     /**
      * @param string $libraryId
-     * @param string $url
+     * @param UriInterface $url
      *
      * @return null|SourceLink
      */
-    public function addLink(string $libraryId, string $url): ?SourceLink
+    public function addLink(string $libraryId, UriInterface $url): ?SourceLink
     {
         $libraryElement = $this->libraryRepository->findById($libraryId);
 

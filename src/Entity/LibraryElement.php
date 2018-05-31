@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Represents an element - eg. "CDE0FIQuOlpGlaJuujZKlHd8hmjIbG"
@@ -58,25 +59,25 @@ class LibraryElement
     }
 
     /**
-     * @param string $url
+     * @param UriInterface $url
      * @return bool
      */
-    public function hasUrl(string $url): bool
+    public function hasUrl(UriInterface $url): bool
     {
         return $this->findLinkByUrl($url) instanceof SourceLink;
     }
 
     /**
-     * @param string $url
+     * @param UriInterface $url
      *
      * @return SourceLink|null
      */
-    public function findLinkByUrl(string $url): ?SourceLink
+    public function findLinkByUrl(UriInterface $url): ?SourceLink
     {
         $filtered = array_filter(
             $this->getUrls()->toArray(),
             function (SourceLink $link) use ($url) {
-                return (string) $link->getUrl() === $url;
+                return (string) $link->getUrl() === (string) $url;
             }
         );
 
@@ -107,7 +108,7 @@ class LibraryElement
      * @param string $url
      * @return SourceLink
      */
-    public function pushInUrl(string $url): SourceLink
+    public function pushInUrl(UriInterface $url): SourceLink
     {
         if ($this->hasUrl($url)) {
             return $this->findLinkByUrl($url);

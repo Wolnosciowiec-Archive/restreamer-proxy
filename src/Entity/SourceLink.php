@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 namespace App\Entity;
+
 use League\Uri\Http;
 use Psr\Http\Message\UriInterface;
 
@@ -29,9 +30,9 @@ class SourceLink implements \JsonSerializable
      */
     private $libraryElement;
 
-    public function __construct(string $url, LibraryElement $libraryElement)
+    public function __construct(UriInterface $url, LibraryElement $libraryElement)
     {
-        $this->url = $url;
+        $this->url = (string) $url;
         $this->libraryElement = $libraryElement;
     }
 

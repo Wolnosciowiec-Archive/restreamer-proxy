@@ -5,6 +5,7 @@ namespace App\ActionHandler;
 use App\Entity\LibraryElement;
 use App\Entity\SourceLink;
 use App\Manager\ElementManager;
+use League\Uri\Http;
 
 /**
  * Adds a new source of file
@@ -37,15 +38,16 @@ class AddLinkAction
      */
     public function createAction(string $libraryFileId, string $url): array
     {
+        $parsedUrl = Http::createFromString(trim($url));
         $libraryElement = $this->manager->getLibraryRepository()->findById($libraryFileId);
 
         return [
             'meta' => [
-                'existedBefore' => $libraryElement instanceof LibraryElement && $libraryElement->hasUrl($url)
+                'existedBefore' => $libraryElement instanceof LibraryElement && $libraryElement->hasUrl($parsedUrl)
             ],
             'action' => self::ACTION_NAME,
             'type'   => SourceLink::class,
-            'object' => $this->manager->addLink($libraryFileId, $url)
+            'object' => $this->manager->addLink($libraryFileId, $parsedUrl)
         ];
     }
 }
