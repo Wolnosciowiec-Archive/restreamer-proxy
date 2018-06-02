@@ -20,6 +20,11 @@ library.add:
     methods: ['POST']
     controller: 'App\Controller\BrowseLibraryController::addFileAction'
 
+library.options:
+    path: /library/{libraryId}/{url}
+    methods: ['OPTIONS']
+    controller: 'App\Controller\BrowseLibraryController::displayOptionsAction'
+
 library.browse:
     path: /library/browse/{perPage}/{page}
     methods: ['GET']

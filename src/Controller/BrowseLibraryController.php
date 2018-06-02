@@ -90,6 +90,14 @@ class BrowseLibraryController extends Controller
     }
 
     /**
+     * @return Response
+     */
+    public function displayOptionsAction(): Response
+    {
+        return new Response();
+    }
+
+    /**
      * @param int $perPage
      * @param int $page
      *
