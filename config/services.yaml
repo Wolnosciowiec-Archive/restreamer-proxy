@@ -26,6 +26,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Event\Subscriber\ApiExceptionSubscriber:
+        class: App\Event\Subscriber\ApiExceptionSubscriber
+        arguments:
+            $isDebugging: '%kernel.debug%'
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
     App\Controller\FileDownloadController:
         class: App\Controller\FileDownloadController
         arguments:

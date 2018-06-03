@@ -4,7 +4,9 @@ namespace App\ActionHandler;
 
 use App\Entity\LibraryElement;
 use App\Entity\SourceLink;
+use App\Exception\InvalidUrlException;
 use App\Manager\ElementManager;
+use App\ResourceHandler\ChainedHandler;
 use League\Uri\Http;
 
 /**
@@ -20,14 +22,20 @@ class AddLinkAction
     /**
      * @var ElementManager $manager
      */
-    protected $manager;
+    private $manager;
+
+    /**
+     * @var ChainedHandler $resourceHandler
+     */
+    private $resourceHandler;
 
     /**
      * @param ElementManager $manager
      */
-    public function __construct(ElementManager $manager)
+    public function __construct(ElementManager $manager, ChainedHandler $resourceHandler)
     {
-        $this->manager = $manager;
+        $this->manager         = $manager;
+        $this->resourceHandler = $resourceHandler;
     }
 
     /**
@@ -41,13 +49,20 @@ class AddLinkAction
         $parsedUrl = Http::createFromString(trim($url));
         $libraryElement = $this->manager->getLibraryRepository()->findById($libraryFileId);
 
+        if (!$this->resourceHandler->isHandlingUrl($parsedUrl)) {
+            throw InvalidUrlException::create();
+        }
+
         return [
+            'type' => 'object',
+            'data' => [
+                'type'   => SourceLink::class,
+                'object' => $this->manager->addLink($libraryFileId, $parsedUrl),
+            ],
+            'action' => self::ACTION_NAME,
             'meta' => [
                 'existedBefore' => $libraryElement instanceof LibraryElement && $libraryElement->hasUrl($parsedUrl)
             ],
-            'action' => self::ACTION_NAME,
-            'type'   => SourceLink::class,
-            'object' => $this->manager->addLink($libraryFileId, $parsedUrl)
         ];
     }
 }
