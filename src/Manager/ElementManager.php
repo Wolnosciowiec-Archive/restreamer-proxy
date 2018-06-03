@@ -77,6 +77,16 @@ class ElementManager
         
         // persist everything
         $this->linkRepository->remove($link);
+
+        if ($libraryElement->getUrls()->isEmpty()) {
+            // delete the whole library element in case that no any sources are there
+            $this->libraryRepository->remove($libraryElement);
+            $this->libraryRepository->flush();
+            $this->linkRepository->flush();
+
+            return $link;
+        }
+
         $this->libraryRepository->persist($libraryElement);
         $this->libraryRepository->flush();
         $this->linkRepository->flush();
