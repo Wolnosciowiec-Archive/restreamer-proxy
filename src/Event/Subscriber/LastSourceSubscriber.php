@@ -35,14 +35,10 @@ class LastSourceSubscriber implements EventSubscriberInterface
 
     public function onLinkDeleted(SourceDeletedEvent $event)
     {
-    	var_dump('onLinkDeleted');
-
         if (!$event->getLibraryElement()->getUrls()->isEmpty()) {
-        	var_dump('!isEmpty');
             return;
         }
 
-        var_dump('delete');
         // delete the whole library element in case that no any sources are there
         $this->libraryRepository->remove($event->getLibraryElement());
         $this->libraryRepository->flush();
