@@ -3,10 +3,13 @@
 namespace App\Manager;
 
 use App\Entity\LibraryElement;
+use App\Event\SourceDeletedEvent;
+use App\Events;
 use App\Repository\LibraryElementRepository;
 use App\Repository\SourceLinkRepository;
 use App\Entity\SourceLink;
 use Psr\Http\Message\UriInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ElementManager
 {
@@ -20,12 +23,19 @@ class ElementManager
      */
     private $linkRepository;
 
+    /**
+     * @var EventDispatcherInterface $dispatcher
+     */
+    private $dispatcher;
+
     public function __construct(
         LibraryElementRepository $libraryElementRepository,
-        SourceLinkRepository $linkRepository
+        SourceLinkRepository     $linkRepository,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->libraryRepository = $libraryElementRepository;
         $this->linkRepository    = $linkRepository;
+        $this->dispatcher        = $dispatcher;
     }
 
     /**
@@ -72,25 +82,17 @@ class ElementManager
         $link = $libraryElement->pullOutUrl($url);
 
         if (!$link) {
+            $this->dispatcher->dispatch(Events::LIBRARY_LINK_DELETE, new SourceDeletedEvent($libraryElement));
             return null;
         }
         
         // persist everything
         $this->linkRepository->remove($link);
-
-        if ($libraryElement->getUrls()->isEmpty()) {
-            // delete the whole library element in case that no any sources are there
-            $this->libraryRepository->remove($libraryElement);
-            $this->libraryRepository->flush();
-            $this->linkRepository->flush();
-
-            return $link;
-        }
-
         $this->libraryRepository->persist($libraryElement);
         $this->libraryRepository->flush();
         $this->linkRepository->flush();
 
+        $this->dispatcher->dispatch(Events::LIBRARY_LINK_DELETE, new SourceDeletedEvent($libraryElement, $link));
         return $link;
     }
 

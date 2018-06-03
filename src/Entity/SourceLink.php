@@ -84,9 +84,10 @@ class SourceLink implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'    => $this->getId() ?? null,
-            'url'   => (string) $this->getUrl(),
-            'order' => $this->getOrder()
+            'id'         => $this->getId() ?? null,
+            'url'        => (string) $this->getUrl(),
+            'urlEncoded' => base64_encode((string) $this->getUrl()),
+            'order'      => $this->getOrder()
         ];
     }
 }
