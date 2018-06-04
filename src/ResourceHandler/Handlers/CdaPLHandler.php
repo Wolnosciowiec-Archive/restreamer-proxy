@@ -28,6 +28,14 @@ class CdaPLHandler extends StreamedHandler implements ResourceHandlerInterface
     /**
      * @inheritdoc
      */
+    public function getSupportedHosts(): array
+    {
+        return ['cda.pl'];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function processRequestedUrl(Request $request, UriInterface $url): Response
     {
         $response = $this->client->get($this->convertToEmbeddedVersion((string) $url), [

@@ -48,4 +48,18 @@ class ChainedHandler implements ResourceHandlerInterface
 
         throw NoAvailableHandlerFoundError::create();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSupportedHosts(): array
+    {
+        $hosts = [];
+
+        foreach ($this->handlers as $handler) {
+            $hosts[] = $handler->getSupportedHosts();
+        }
+
+        return count($hosts) > 0 ? array_merge(...$hosts) : [];
+    }
 }

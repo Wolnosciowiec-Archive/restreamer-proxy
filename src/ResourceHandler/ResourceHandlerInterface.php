@@ -28,4 +28,11 @@ interface ResourceHandlerInterface
      * @throws NoAvailableHandlerFoundError
      */
     public function processRequestedUrl(Request $request, UriInterface $url): Response;
+
+    /**
+     * List all supported hosting sites by a handler
+     *
+     * @return string[]
+     */
+    public function getSupportedHosts(): array;
 }

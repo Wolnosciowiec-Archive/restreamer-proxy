@@ -25,6 +25,11 @@ class AnyFilesPLHandler implements ResourceHandlerInterface
         return $this->client;
     }
 
+    public function getSupportedHosts(): array
+    {
+        return ['anyfiles.pl'];
+    }
+
     /**
      * @inheritdoc
      */

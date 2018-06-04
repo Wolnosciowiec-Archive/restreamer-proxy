@@ -32,3 +32,8 @@ library.browse:
     defaults:
         perPage: 50
         page: 1
+
+hostings.supported:
+    path: /hostings/supported
+    methods: ['GET']
+    controller: 'App\Controller\SupportedHostingsController::listAction'
