@@ -4,6 +4,7 @@ namespace App\ActionHandler;
 
 use App\Entity\LibraryElement;
 use App\Entity\SourceLink;
+use App\Exception\InvalidLibraryNameException;
 use App\Exception\InvalidUrlException;
 use App\Manager\ElementManager;
 use App\ResourceHandler\ChainedHandler;
@@ -43,6 +44,8 @@ class AddLinkAction
      * @param string $url
      *
      * @return array
+     *
+     * @throws InvalidLibraryNameException Catchable by ApiExceptionSubscriber
      */
     public function createAction(string $libraryFileId, string $url): array
     {

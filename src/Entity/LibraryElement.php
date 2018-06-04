@@ -12,6 +12,9 @@ use Psr\Http\Message\UriInterface;
  */
 class LibraryElement implements \JsonSerializable
 {
+	public const ID_MIN_LENGTH = 8;
+	public const ID_MAX_LENGTH = 48;
+
     /**
      * @var string $id
      */

@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\Entity\LibraryElement;
 use App\Event\SourceDeletedEvent;
 use App\Events;
+use App\Exception\InvalidLibraryNameException;
 use App\Repository\LibraryElementRepository;
 use App\Repository\SourceLinkRepository;
 use App\Entity\SourceLink;
@@ -43,6 +44,8 @@ class ElementManager
      * @param UriInterface $url
      *
      * @return null|SourceLink
+     *
+     * @throws InvalidLibraryNameException
      */
     public function addLink(string $libraryId, UriInterface $url): ?SourceLink
     {
@@ -97,19 +100,50 @@ class ElementManager
     }
 
     /**
-     * @param string $libraryId
-     * @return LibraryElement
-     */
-    private function createLibraryElement(string $libraryId)
-    {
-        return new LibraryElement($libraryId);
-    }
-
-    /**
      * @return LibraryElementRepository
      */
     public function getLibraryRepository(): LibraryElementRepository
     {
         return $this->libraryRepository;
+    }
+
+    /**
+     * @param string $libraryId
+     * @return LibraryElement
+     *
+     * @throws InvalidLibraryNameException
+     */
+    private function createLibraryElement(string $libraryId)
+    {
+        $this->assertValidLibraryId($libraryId);
+
+        return new LibraryElement($this->escapeLibraryId($libraryId));
+    }
+
+    /**
+     * @param string $libraryId
+     *
+     * @throws InvalidLibraryNameException
+     */
+    private function assertValidLibraryId(string $libraryId): void
+    {
+        $length = \strlen($libraryId);
+
+        if ($length < LibraryElement::ID_MIN_LENGTH || $length > LibraryElement::ID_MAX_LENGTH) {
+            throw InvalidLibraryNameException::createInvalidLengthError();
+        }
+
+        if ($libraryId !== $this->escapeLibraryId($libraryId)) {
+            throw InvalidLibraryNameException::createInvalidFormatError($this->escapeLibraryId($libraryId));
+        }
+    }
+
+    private function escapeLibraryId(string $libraryId): string
+    {
+        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $libraryId);
+        $clean = preg_replace('/[^a-zA-Z0-9\/_|+ -]/', '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+
+        return preg_replace("/[\/_|+ -]+/", '-', $clean);
     }
 }
