@@ -10,7 +10,12 @@
 			"name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
@@ -102,7 +107,12 @@
 			"name": "/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "http://localhost:8000/library/auta/aHR0cDovL2ViZC5jZGEucGwvMzAweDE1MC8yMDIzNjBlZmQ=",
@@ -125,7 +135,12 @@
 			"name": "/library/browse",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "http://localhost:8000/library/browse/50/1",
@@ -139,6 +154,33 @@
 						"browse",
 						"50",
 						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/hostings/supported",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8000/hostings/supported",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"hostings",
+						"supported"
 					]
 				},
 				"description": ""
